@@ -1,0 +1,65 @@
+#!/bin/bash
+#####################################################################################################################
+#                                                                                                                   #
+#                           This script is written by Johan aka Saint, admin of Webbh4tt                            #
+# This program is open source; you can redistribute it and/or modify it under the terms of the GNU General Public   #
+#                         The author bears no responsibility for malicious or illegal use.                          #
+#                                                                                                                   #
+#                                                                                                                   #
+#####################################################################################################################
+
+#########################################################################################
+#                                           known bugs                                  #
+#                                           None so far                                 #
+#                              Please report bugs to info@webbhatt.com                  #
+#########################################################################################
+
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+NORMAL=`echo "\033[m"`
+BLUE=`echo "\033[36m"` #Blue
+NUMBER=`echo "\033[33m"` #yellow
+FGRED=`echo "\033[41m"`
+RED_TEXT=`echo "\033[31m"` #Red
+ENTER_LINE=`echo "\033[33m"`
+INTRO_TEXT=`echo "\033[32m"` #green and white text
+INFOS=`echo "\033[103;30m"` #yellow bg
+SUCCESS=`echo "\033[102;30m"` #green bg
+WARNING=`echo "\033[101;30m"` #red bg
+WARP=`echo "\033[106;30m"` #lightblue bg
+BLACK=`echo "\033[109;30m"` #SPACE bg
+END=`echo "\033[0m"`
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+#info
+ver=$(echo iptables1..0)
+#Author Johan "Saint" Borjesson
+#################################Start script and validation####################################
+echo -n "Please enter Iptables rule:"
+read iprule
+$iprule
+resetta() {
+iptables-restore restora.fil
+}
+
+touch /var/run/FulWall.sh
+
+( sleep 30 ; rm -f /var/run/FulWall && resetta ) &
+#
+# if true
+# ls /var/run/FulWall
+# do
+# resetta
+read -r -p "Would you like to delete the FulWall file and save your changes to the default setup of iptables? [y/N] " response
+case $response in
+[yY][eE][sS]|[yY])
+rm -f /var/run/FulWall.sh
+cp restora.fil restora.back
+iptables-save > restora.fil
+;;
+    *)
+:
+;;
+esac
+echo -e "${SUCCESS}[*] Rule have been added to default setup of iptables ${END}"
+#om du inte är utslängd kan du nu bestämma att ta bort skiten å spara till din standarfw
+
+exit 0
