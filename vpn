@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+. ./environment
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+
+#################################Start script and validation####################################
+if [[ $EUID -ne 0 ]]; then
+echo -e "${WARNING}Script must be run as root!${END}"
+exit 1
+else
+
+echo "Starting the installation of your Openvpn server"
+apt-get install openvpn -y 
+cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa
+echo "Please fill in the information as following"
+
+sed -e s/"$txt_ori"/"$txt_rplc"/g $text > text.out
+
+!/bin/bash
+echo "Reading config...." >&2
+source /etc/openvpn/easy-rsa/vars
+echo "KEY_COUNTRY=?"
+read country
+sed -i -r 's/export KEY_COUNTRY="US"/export KEY_COUNTRY=$country/' /etc/openvpn/easy-rsa/vars
+exit
