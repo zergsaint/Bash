@@ -37,15 +37,15 @@ sed -i -e "s/KEY_EMAIL=\"me@myhost.mydomain\"/KEY_EMAIL=$mail/" /etc/openvpn/eas
 #
 echo "KEY_EMAIL=? (ex: your@email.com)" 
 read email
-sed -i -e "s/KEY_EMAIL=\mail@host.domain\/KEY_EMAIL=$email/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_EMAIL=mail@host.domain/KEY_EMAIL=$email/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_CN=? (ex: server.hostname.com)" 
 read key_cn
-sed -i -e "s/KEY_EMAIL=\changeme\/KEY_EMAIL=$key_cn/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_EMAIL=changeme/KEY_EMAIL=$key_cn/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_NAME=? (ex: server.hostname.com)" 
 read key_name
-sed -i -e "s/KEY_NAME=\changeme\/KEY_EMAIL=$key_name/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_NAME=changeme/KEY_EMAIL=$key_name/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_OU=? (ex: OrganisationUnitname)" 
 read key_ou
