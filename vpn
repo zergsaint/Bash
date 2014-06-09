@@ -14,7 +14,6 @@ echo "Starting the installation of your Openvpn server"
 apt-get install openvpn -y 
 cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa
 echo "Please fill in the information as following"
-source /etc/openvpn/easy-rsa/2.0/vars
 echo "KEY_COUNTRY=? (US is default)"
 read country
 sed -i -e "s/KEY_COUNTRY=\"US\"/KEY_COUNTRY=$country/" /etc/openvpn/easy-rsa/vars
