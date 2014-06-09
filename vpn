@@ -14,7 +14,7 @@ echo "Starting the installation of your Openvpn server"
 apt-get install openvpn -y 
 cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa
 echo "Please fill in the information as following"
-source /etc/openvpn/easy-rsa/vars
+source /etc/openvpn/easy-rsa/2.0/vars
 echo "KEY_COUNTRY=? (US is default)"
 read country
 sed -i -e "s/KEY_COUNTRY=\"US\"/KEY_COUNTRY=$country/" /etc/openvpn/easy-rsa/vars
@@ -37,19 +37,19 @@ sed -i -e "s/KEY_EMAIL=\"me@myhost.mydomain\"/KEY_EMAIL=$mail/" /etc/openvpn/eas
 #
 echo "KEY_EMAIL=? (ex: your@email.com)" 
 read email
-sed -i "s/KEY_EMAIL=\mail@host.domain\/KEY_EMAIL=$email/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_EMAIL=\mail@host.domain\/KEY_EMAIL=$email/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_CN=? (ex: server.hostname.com)" 
 read key_cn
-sed -i "s/KEY_EMAIL=\changeme\/KEY_EMAIL=$key_cn/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_EMAIL=\changeme\/KEY_EMAIL=$key_cn/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_NAME=? (ex: server.hostname.com)" 
 read key_name
-sed -i "s/KEY_NAME=\changeme\/KEY_EMAIL=$key_name/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_NAME=\changeme\/KEY_EMAIL=$key_name/" /etc/openvpn/easy-rsa/vars
 #
 echo "KEY_OU=? (ex: OrganisationUnitname)" 
 read key_ou
-sed -i "s/KEY_OU=\"changeme\"/KEY_OU=$key_ou/" /etc/openvpn/easy-rsa/vars
+sed -i -e "s/KEY_OU=changeme/KEY_OU=$key_ou/" /etc/openvpn/easy-rsa/vars
 #
 #################Clean all########################
 source /etc/openvpn/easy-rsa/2.0/vars
