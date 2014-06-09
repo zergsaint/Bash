@@ -50,6 +50,7 @@ sed -i -e "s/KEY_OU=changeme/KEY_OU=$key_ou/" /etc/openvpn/easy-rsa/2.0/vars
 #working on a fix
 sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
 #################Clean all########################
+source /etc/openvpn/easy-rsa/2.0/vars
 /etc/openvpn/easy-rsa/2.0/clean-all
 #
 /etc/openvpn/easy-rsa/2.0/build-ca
