@@ -1,9 +1,5 @@
 #!/bin/bash
 #
-# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
-. ./environment
-# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
-
 #################################Start script and validation####################################
 if [[ $EUID -ne 0 ]]; 
 then echo -e "Script must be run as root!"
@@ -50,8 +46,10 @@ echo "KEY_OU=? (ex: OrganisationUnitname)"
 read key_ou
 sed -i -e "s/KEY_OU=changeme/KEY_OU=$key_ou/" /etc/openvpn/easy-rsa/vars
 #
+#################Clearing whichopensslcnf#########
+#working on a fix
+sed -i "s/\[\[:alnum\:\]\]//" whichopensslcnf
 #################Clean all########################
-source /etc/openvpn/easy-rsa/2.0/vars
 /etc/openvpn/easy-rsa/2.0/clean-all
 #
 /etc/openvpn/easy-rsa/2.0/build-ca
