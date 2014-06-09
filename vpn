@@ -53,13 +53,13 @@ sed -i -e "s/KEY_OU=changeme/KEY_OU=$key_ou/" /etc/openvpn/easy-rsa/vars
 #
 #################Clean all########################
 source /etc/openvpn/easy-rsa/2.0/vars
-./etc/openvpn/easy-rsa/2.0/clean-all
+/etc/openvpn/easy-rsa/2.0/clean-all
 #
-./etc/openvpn/easy-rsa/2.0/build-ca
+/etc/openvpn/easy-rsa/2.0/build-ca
 #
 echo "Server name? (server.hostname.com)"
 read server.hostname.com
-./etc/openvpn/easy-rsa/2.0/build-key-server $server.hostname.com
+/etc/openvpn/easy-rsa/2.0/build-key-server $server.hostname.com
 #
 exit
 fi
