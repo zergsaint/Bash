@@ -70,6 +70,10 @@ gunzip /etc/openvpn/server.conf.gz
 #
 ################Editing server.conf####################
 #
+IP=$"/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }'"
+sed -i 's/;local a.b.c.d/local $IP/g' /etc/openvpn/server.conf
+#
+sed -i 's/;push "route 192.168.10.0 255.255.254.0"/push "route 192.168.10.0 255.255.254.0"/g' /etc/openvpn/server.conf
 #
 exit
 fi
