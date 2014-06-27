@@ -58,12 +58,18 @@ bash /etc/openvpn/easy-rsa/2.0/clean-all
 bash /etc/openvpn/easy-rsa/2.0/build-ca
 #
 echo -e "we are now creating the server, whats the name?"
-bash /etc/openvpn/easy-rsa/2.0/build-key-server
+bash /etc/openvpn/easy-rsa/2.0/build-key-server server
+#
+echo -e "we will generate one client to begin with, whats the first client name?"
+bash /etc/openvpn/easy-rsa/2.0/build-client1
 #
 bash /etc/openvpn/easy-rsa/2.0/build-dh
 #
 cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn
 gunzip /etc/openvpn/server.conf.gz
+#
+################Editing server.conf####################
+#
 #
 exit
 fi
