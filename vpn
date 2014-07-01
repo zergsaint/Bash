@@ -73,7 +73,11 @@ gunzip /etc/openvpn/server.conf.gz
 IP=$"/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }'"
 sed -i 's/;local a.b.c.d/local $IP/g' /etc/openvpn/server.conf
 #
-sed -i 's/;push "route 192.168.10.0 255.255.254.0"/push "route 192.168.10.0 255.255.254.0"/g' /etc/openvpn/server.conf
+GW=$"route -n | grep 'UG[ \t]' | awk '{print $2}'"
+sed -i 's/;push "route 192.168.1.0 255.255.254.0"/push "route $GW 255.255.255.0"/g' /etc/openvpn/server.conf
 #
+sed -i 's/; user nobody/user nobody/g' /etc/openvpn/server.conf
+#
+sed -i 's/; group nogroup/group nogroup/g' /etc/openvpn/server.conf
 exit
 fi
