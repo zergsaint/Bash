@@ -21,6 +21,7 @@
 	if [[ $EUID -ne 0 ]];
 			then echo -e "Script must be run as root!"
 				exit 1
+			else
 		echo "* Starting the installation of your OpenVPN server"
 			apt-get install openvpn -y
 		mkdir /etc/openvpn/easy-rsa
