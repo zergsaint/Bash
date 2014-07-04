@@ -82,6 +82,11 @@ GW=$(route -n | grep 'UG[ \t]' | awk '{print $2}')
 cp keys/ca.crt /etc/openvpn
 cp keys/server.{key,crt} /etc/openvpn
 cp keys/dh1024.pem /etc/openvpn
-cp keys/ca.crt /
+cp keys/ca.crt /home/$USER
+cp keys/client1.crt /home/$USER
+cp keys/client1.key /home/$USER
+################Final instructions####################
+#
+#
 exit
 fi
