@@ -53,10 +53,11 @@
 #This will allow it to properly detect the version of OpenSSL on your computer#
 	sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
 ###Clean all###
-. /etc/openvpn/easy-rsa/2.0/vars
-. /etc/openvpn/easy-rsa/2.0/clean-all
+cd /etc/openvpn/easy-rsa/2.0
+. /vars
+. /clean-all
 # DH params
-. /etc/openvpn/easy-rsa/2.0/build-dh
+. /build-dh
 # Let's configure the server
 	cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn
 		gunzip /etc/openvpn/server.conf.gz
