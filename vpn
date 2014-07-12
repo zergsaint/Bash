@@ -54,10 +54,10 @@
 	sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
 ###Clean all###
 cd /etc/openvpn/easy-rsa/2.0
-. /vars
-. /clean-all
+. /etc/openvpn/easy-rsa/2.0/vars
+. /etc/openvpn/easy-rsa/2.0/clean-all
 # DH params
-. /build-dh
+. /etc/openvpn/easy-rsa/2.0/build-dh
 # Let's configure the server
 	cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn
 		gunzip /etc/openvpn/server.conf.gz
