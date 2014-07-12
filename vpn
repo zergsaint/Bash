@@ -1,53 +1,45 @@
 #!/bin/bash
-#
-#################################Start script and validation####################################
-#if [ -f /usr/bin/apt-get ]; then
-#echo "* Installing OpenVPN server."
-# apt-get install openvpn -y > /dev/null 2>&1
-# mkdir /etc/openvpn/easy-rsa
-# cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa/
-#elif [ -f /usr/bin/yum ]; then
-# echo "* Installing OpenVPN server."
-# yum install openvpn -y > /dev/null 2>&1
-# mkdir /etc/openvpn/easy-rsa
-# cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa/
-#else
-# echo "Unsupported distribution."
-# exit 1
-#fi
+#This is a automatic installer for OpenVPN by saint
 
 ###Starting###
-#In this part we will make the directories needed#
+# OpenVPN setup and first user creation
+#In this part we will make the directories needed
 	if [[ $EUID -ne 0 ]];
 			then echo -e "Script must be run as root!"
 				exit 1
-			else
+	fi
+		echo "* tell me your name for the client cert"
+		read -p "Client name: " -e -i client CLIENT
 		echo "* Starting the installation of your OpenVPN server"
+			apt-get update -y
 			apt-get install openvpn -y
-		mkdir /etc/openvpn/easy-rsa
+			mkdir /etc/openvpn/easy-rsa
 			cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa/
+
 ###Configuring###
-#In this part we will configure the files#
-	echo "* Please fill in the information as following"
+#In this part we will configure the files
+		echo "* Please fill in the information as following"
 		echo "KEY_COUNTRY=? (US is default)"
-			read COUNTRY
+		read COUNTRY
 		echo "KEY_PROVINCE=? (CA is default)"
-			read PROVINCE
+		read PROVINCE
 		echo "KEY_CITY=? (SanFrancisco is default)"
-			read CITY
+		read CITY
 		echo "KEY_ORG=? (ex: Company-name)"
-			read ORG
+		read ORG
 		echo "KEY_EMAIL=? (ex: your@email.com)"
-			read MAIL
+		read MAIL
 		echo "KEY_EMAIL=? (ex: your@email.com)"
-			read EMAIL
+		read EMAIL
 		echo "KEY_CN=? (ex: server.hostname.com)"
-			read KEYCN
+		read KEYCN
 		echo "KEY_NAME=? (ex: server.hostname.com)"
-			read KEYNAME
+		read KEYNAME
 		echo "KEY_OU=? (ex: OrganisationUnitname)"
-			read ORGNAME
-###Replacing##
+		read ORGNAME
+##Stronger Encryption##
+	sed -i 's|export KEY_SIZE=1024|export KEY_SIZE=2048|' /etc/openvpn/easy-rsa/2.0/vars
+###Replacing###
 	sed -i -e "s/KEY_COUNTRY=\"US\"/KEY_COUNTRY=$COUNTRY/" /etc/openvpn/easy-rsa/2.0/vars
 	sed -i -e "s/KEY_PROVINCE=\"CA\"/KEY_PROVINCE=$PROVINCE/" /etc/openvpn/easy-rsa/2.0/vars
 	sed -i -e "s/KEY_CITY=\"SanFrancisco\"/KEY_CITY=$CITY/" /etc/openvpn/easy-rsa/2.0/vars
@@ -57,36 +49,52 @@
 	sed -i -e "s/KEY_CN=changeme/KEY_CN=$KEYCN/" /etc/openvpn/easy-rsa/2.0/vars
 	sed -i -e "s/KEY_NAME=changeme/KEY_NAME=$KEYNAME/" /etc/openvpn/easy-rsa/2.0/vars
 	sed -i -e "s/KEY_OU=changeme/KEY_OU=$ORGNAME/" /etc/openvpn/easy-rsa/2.0/vars
-#################Clearing whichopensslcnf#########
+####Clearing whichopensslcnf####
 #This will allow it to properly detect the version of OpenSSL on your computer#
-sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
-#################Clean all########################
-source . /etc/openvpn/easy-rsa/2.0/vars
-	. /etc/openvpn/easy-rsa/2.0/clean-all
-	. /etc/openvpn/easy-rsa/2.0/build-ca
-		echo -e "* we are now creating the server, whats the name?"
-			. /etc/openvpn/easy-rsa/2.0/build-key-server
-		echo -e "* we will generate one client to begin with"
-			. /etc/openvpn/easy-rsa/2.0/build-client
-				. /etc/openvpn/easy-rsa/2.0/build-dh
+	sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
+###Clean all###
+. /etc/openvpn/easy-rsa/2.0/vars
+. /etc/openvpn/easy-rsa/2.0/clean-all
+# DH params
+. /etc/openvpn/easy-rsa/2.0/build-dh
+# Let's configure the server
 	cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn
 		gunzip /etc/openvpn/server.conf.gz
-################Editing server.conf####################
-IP=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }') 
+####Editing server.conf####
+IP=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }')
 	sed_exec=$(echo $IP | sed -i -e "s/;local a.b.c.d/local $IP/" /etc/openvpn/server.conf)
 GW=$(route -n | grep 'UG[ \t]' | awk '{print $2}')
 	sed -i -e "s/;push \"route 192.168.10.0 255.255.255.0\"/push \"route $GW 255.255.255.0\"/" /etc/openvpn/server.conf
 	sed -i 's/;user nobody/user nobody/g' /etc/openvpn/server.conf
 	sed -i 's/;group nogroup/group nogroup/g' /etc/openvpn/server.conf
-################Moving keys and files#################
-cp keys/ca.crt /etc/openvpn
-cp keys/server.{key,crt} /etc/openvpn
-cp keys/dh1024.pem /etc/openvpn
-cp keys/ca.crt /home/$USER
-cp keys/client1.crt /home/$USER
-cp keys/client1.key /home/$USER
-################Final instructions####################
-#
-#
-exit
-fi
+####Moving keys and files####
+cd /etc/openvpn/easy-rsa/2.0/keys
+cp ca.crt ca.key dh2048.pem server.crt server.key /etc/openvpn
+cd /etc/openvpn/
+# Set the server configuration
+sed -i 's/dh dh1024.pem/dh dh2048.pem/' server.conf
+# Enable net.ipv4.ip_forward for the system
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+# Avoid a reboot
+echo 1 > /proc/sys/net/ipv4/ip_forward
+# Set iptables
+#Working on a fix
+# And finally, restart OpenVPN
+/etc/init.d/openvpn restart
+# Let's generate the client config
+mkdir ~/ovpn-$CLIENT
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/ovpn-$CLIENT/$CLIENT.conf
+cp /etc/openvpn/easy-rsa/2.0/keys/ca.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.key ~/ovpn-$CLIENT
+cd ~/ovpn-$CLIENT
+sed -i "s/cert client.crt/cert $CLIENT.crt/" $CLIENT.conf
+sed -i "s/key client.key/key $CLIENT.key/" $CLIENT.conf
+tar -czf ../ovpn-$CLIENT.tar.gz $CLIENT.conf ca.crt $CLIENT.crt $CLIENT.key
+cd ~/
+rm -rf ovpn-$CLIENT
+echo ""
+echo "Finished!"
+echo ""
+echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+exit 0
