@@ -105,4 +105,5 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 #working on a fix
+#The problem atm is that the $CLIENT.conf will need the server address or external IP .. working on fix
 exit 0
