@@ -54,7 +54,7 @@
 	sed -i "s/\[\[:alnum\:\]\]//" /etc/openvpn/easy-rsa/2.0/whichopensslcnf
 ###Clean all###
 cd /etc/openvpn/easy-rsa/2.0
-. /etc/openvpn/easy-rsa/2.0/vars
+source /etc/openvpn/easy-rsa/2.0/vars
 . /etc/openvpn/easy-rsa/2.0/clean-all
 #build client
 . /etc/openvpn/easy-rsa/2.0/build-ca
