@@ -56,12 +56,14 @@
 cd /etc/openvpn/easy-rsa/2.0
 source /etc/openvpn/easy-rsa/2.0/vars
 . /etc/openvpn/easy-rsa/2.0/clean-all
-#build client
+#build ca
 . /etc/openvpn/easy-rsa/2.0/build-ca
 #build server
 . /etc/openvpn/easy-rsa/2.0/build-key-server server
 # DH params
 . /etc/openvpn/easy-rsa/2.0/build-dh
+# Client
+. /etc/openvpn/easy-rsa/2.0/build-key "$CLIENT"
 # Let's configure the server
 	cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz /etc/openvpn
 		gunzip /etc/openvpn/server.conf.gz
@@ -87,5 +89,20 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 # And finally, restart OpenVPN
 /etc/init.d/openvpn restart
 # Let's generate the client config
+mkdir ~/ovpn-$CLIENT
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/ovpn-$CLIENT/$CLIENT.conf
+cp /etc/openvpn/easy-rsa/2.0/keys/ca.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.key ~/ovpn-$CLIENT
+cd ~/ovpn-$CLIENT
+sed -i "s/cert client.crt/cert $CLIENT.crt/" $CLIENT.conf
+sed -i "s/key client.key/key $CLIENT.key/" $CLIENT.conf
+tar -czf ../ovpn-$CLIENT.tar.gz $CLIENT.conf ca.crt $CLIENT.crt $CLIENT.key
+cd ~/
+rm -rf ovpn-$CLIENT
+echo ""
+echo "Finished!"
+echo ""
+echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 #working on a fix
 exit 0
