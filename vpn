@@ -15,7 +15,6 @@
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
 			cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa/
-
 ###Configuring###
 #In this part we will configure the files
 		echo "* Please fill in the information as following"
@@ -94,6 +93,10 @@ cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/ovpn-$CLIEN
 cp /etc/openvpn/easy-rsa/2.0/keys/ca.crt ~/ovpn-$CLIENT
 cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.crt ~/ovpn-$CLIENT
 cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.key ~/ovpn-$CLIENT
+####Editing $CLIENT.conf####
+EXTIP=$(wget -qO- ifconfig.me/ip)
+sed_exec=$(echo $EXTIP | sed -i -e "s/remote my-server-1 1194/$EXTIP 1194/" ~/ovpn-$CLIENT/$CLIENT.conf
+####finishing up####
 cd ~/ovpn-$CLIENT
 sed -i "s/cert client.crt/cert $CLIENT.crt/" $CLIENT.conf
 sed -i "s/key client.key/key $CLIENT.key/" $CLIENT.conf
@@ -104,6 +107,4 @@ echo ""
 echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
-#working on a fix
-#The problem atm is that the $CLIENT.conf will need the server address or external IP .. working on fix
 exit 0
