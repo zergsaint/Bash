@@ -1,5 +1,11 @@
 #!/bin/bash
 #This is a automatic installer for OpenVPN by saint
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+BLUE=`echo "\033[36m"` #Blue
+RED_TEXT=`echo "\033[31m"` #Red
+INTRO_TEXT=`echo "\033[32m"` #green and white text
+# ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+#Checking for root
 if [[ $EUID -ne 0 ]];
 			then echo -e "Script must be run as root!"
 				exit 1
@@ -10,14 +16,14 @@ install_ovpn () {
 #In this part we will make the directories needed
 		echo "* tell me your name for the client cert"
 		read -p "Client name: " -e -i client CLIENT
-		echo "* Starting the installation of your OpenVPN server"
+		echo -e "${INTRO_TEXT}* Starting the installation of your OpenVPN server${END}"
 			apt-get update -y
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
 			cp -r /usr/share/doc/openvpn/examples/easy-rsa/2.0 /etc/openvpn/easy-rsa/
 ###Configuring###
 #In this part we will configure the files
-		echo "* Please fill in the information as following"
+		echo -e "${RED_TEXT}* Please fill in the information as following${END}"
 		echo "KEY_COUNTRY=? (US is default)"
 		read COUNTRY
 		echo "KEY_PROVINCE=? (CA is default)"
@@ -104,9 +110,9 @@ tar -czf ../ovpn-$CLIENT.tar.gz $CLIENT.conf ca.crt $CLIENT.crt $CLIENT.key
 cd ~/
 rm -rf ovpn-$CLIENT
 echo ""
-echo "Finished!"
+echo -e "${INTRO_TEXT}Finished!${END}"
 echo ""
-echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+echo -e "${INTRO_TEXT}Your client config is at ~/ovpn-$CLIENT.tar.gz${END}"
 break
 }
 client_ovpn () {
@@ -132,13 +138,15 @@ rm -rf ovpn-$CLIENT
 echo ""
 echo "Finished!"
 echo ""
-echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+echo -e "${INTRO_TEXT}Your client config is at ~/ovpn-$CLIENT.tar.gz${END}"
 break
 }
 showMenu () {
-        echo "1) Install OpenVPN"
+	echo -e "${INTRO_TEXT}###############################${END}"
+	echo "1) Install OpenVPN"
         echo "2) Add Clients"
         echo "3) quit"
+	echo -e "${INTRO_TEXT}###############################${END}"
 }
 while [ 1 ]
 do
