@@ -4,18 +4,7 @@ if [[ $EUID -ne 0 ]];
 			then echo -e "Script must be run as root!"
 				exit 1
 	fi
-showMenu () {
-        echo "1) Install OpenVPN"
-        echo "2) Add Clients"
-        echo "3) quit"
-}
-
-while [ 1 ]
-do
-        showMenu
-        read CHOICE
-        case "$CHOICE" in
-                "1") echo "starting installation of OpenVPN"
+install () {
 ###Starting###
 # OpenVPN setup and first user creation
 #In this part we will make the directories needed
@@ -118,9 +107,10 @@ echo ""
 echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
-break
-;;
-                "2") echo "Lets get to it!"
+		break
+	;;
+}
+clients () {
 echo "* tell me your name for the client cert"
 read -p "Client name: " -e -i client CLIENT
 ####Client Config####
@@ -144,8 +134,23 @@ echo ""
 echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
-break
-;;
+		break
+	;;
+}
+showMenu () {
+        echo "1) Install OpenVPN"
+        echo "2) Add Clients"
+        echo "3) quit"
+}
+while [ 1 ]
+do
+        showMenu
+        read CHOICE
+        case "$CHOICE" in
+                "1") echo "starting installation of OpenVPN"
+                install
+                "2") echo "Lets get to it!"
+                clients
                 "3") echo "Ok then!"
                         break
 			;;
