@@ -15,7 +15,7 @@ do
         showMenu
         read CHOICE
         case "$CHOICE" in
-                "1")
+                "1") echo "starting installation of OpenVPN"
 ###Starting###
 # OpenVPN setup and first user creation
 #In this part we will make the directories needed
@@ -120,7 +120,7 @@ echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 break
 ;;
-                "2")
+                "2") echo "Lets get to it!"
 echo "* tell me your name for the client cert"
 read -p "Client name: " -e -i client CLIENT
 ####Client Config####
@@ -146,7 +146,7 @@ echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 break
 ;;
-                "3")
+                "3") echo "Ok then!"
                         break
 			;;
 		*) break 
