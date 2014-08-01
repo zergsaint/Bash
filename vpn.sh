@@ -124,6 +124,7 @@ break
 echo "* tell me your name for the client cert"
 read -p "Client name: " -e -i client CLIENT
 ####Client Config####
+. /etc/openvpn/easy-rsa/2.0/build-key "$CLIENT"
 mkdir ~/ovpn-$CLIENT
 cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/ovpn-$CLIENT/$CLIENT.conf
 cp /etc/openvpn/easy-rsa/2.0/keys/ca.crt ~/ovpn-$CLIENT
