@@ -1,13 +1,24 @@
 #!/bin/bash
 #This is a automatic installer for OpenVPN by saint
-
-###Starting###
-# OpenVPN setup and first user creation
-#In this part we will make the directories needed
-	if [[ $EUID -ne 0 ]];
+if [[ $EUID -ne 0 ]];
 			then echo -e "Script must be run as root!"
 				exit 1
 	fi
+showMenu () {
+        echo "1) Install OpenVPN"
+        echo "2) Add Clients"
+        echo "3) quit"
+}
+
+while [ 1 ]
+do
+        showMenu
+        read CHOICE
+        case "$CHOICE" in
+                "1")
+###Starting###
+# OpenVPN setup and first user creation
+#In this part we will make the directories needed
 		echo "* tell me your name for the client cert"
 		read -p "Client name: " -e -i client CLIENT
 		echo "* Starting the installation of your OpenVPN server"
@@ -108,3 +119,35 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 exit 0
+                        ;;
+                "2")
+echo "* tell me your name for the client cert"
+read -p "Client name: " -e -i client CLIENT
+####Client Config####
+mkdir ~/ovpn-$CLIENT
+cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf ~/ovpn-$CLIENT/$CLIENT.conf
+cp /etc/openvpn/easy-rsa/2.0/keys/ca.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.crt ~/ovpn-$CLIENT
+cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.key ~/ovpn-$CLIENT
+####Editing $CLIENT.conf####
+EXTIP=$(wget -qO- ifconfig.me/ip)
+sed_exec=$(echo $EXTIP | sed -i -e "s/remote my-server-1 1194/$EXTIP 1194/" ~/ovpn-$CLIENT/$CLIENT.conf
+####finishing up####
+cd ~/ovpn-$CLIENT
+sed -i "s/cert client.crt/cert $CLIENT.crt/" $CLIENT.conf
+sed -i "s/key client.key/key $CLIENT.key/" $CLIENT.conf
+tar -czf ../ovpn-$CLIENT.tar.gz $CLIENT.conf ca.crt $CLIENT.crt $CLIENT.key
+cd ~/
+rm -rf ovpn-$CLIENT
+echo ""
+echo "Finished!"
+echo ""
+echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+exit 0
+
+                        ;;
+                "3")
+                        exit
+                        ;;
+        esac
+done
