@@ -148,3 +148,4 @@ echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 			;;
         esac
 done
+exit
