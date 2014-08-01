@@ -1,6 +1,7 @@
 #!/bin/bash
 #This is a automatic installer for OpenVPN by saint
 # ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
+NORMAL=`echo "\033[m"`
 BLUE=`echo "\033[36m"` #Blue
 RED_TEXT=`echo "\033[31m"` #Red
 INTRO_TEXT=`echo "\033[32m"` #green and white text
