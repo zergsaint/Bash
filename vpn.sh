@@ -1,10 +1,11 @@
 #!/bin/bash
 #This is a automatic installer for OpenVPN by saint
 # ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
-NORMAL=`echo "\033[m"`
-BLUE=`echo "\033[36m"` #Blue
-RED_TEXT=`echo "\033[31m"` #Red
-INTRO_TEXT=`echo "\033[32m"` #green and white text
+	NORMAL=`echo "\033[m"`
+	BLUE=`echo "\033[36m"` #Blue
+	RED_TEXT=`echo "\033[31m"` #Red
+	INTRO_TEXT=`echo "\033[32m"` #green and white text
+	END=`echo "\033[0m"`
 # ~~~~~~~~~~ Environment Setup ~~~~~~~~~~ #
 #Checking for root
 if [[ $EUID -ne 0 ]];
@@ -148,6 +149,7 @@ showMenu () {
         echo "2) Add Clients"
         echo "3) quit"
 	echo -e "${INTRO_TEXT}###############################${END}"
+	echo ""
 }
 while [ 1 ]
 do
