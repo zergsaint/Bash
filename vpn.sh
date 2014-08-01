@@ -119,7 +119,6 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 exit 0
-                        ;;
                 "2")
 echo "* tell me your name for the client cert"
 read -p "Client name: " -e -i client CLIENT
@@ -144,10 +143,7 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 exit 0
-
-                        ;;
                 "3")
                         exit
-                        ;;
         esac
 done
