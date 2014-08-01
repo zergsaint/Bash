@@ -145,8 +145,8 @@ do
         showMenu
         read CHOICE
         case "$CHOICE" in
-                "1") install_ovpn
-                "2") client_ovpn
+                "1") install_ovpn ;;
+                "2") client_ovpn ;;
                 "3") echo "Ok then!"
                         break
 			;;
