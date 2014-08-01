@@ -118,6 +118,7 @@ echo ""
 echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+break
 ;;
                 "2")
 echo "* tell me your name for the client cert"
@@ -142,6 +143,7 @@ echo ""
 echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
+break
 ;;
                 "3")
                         break
