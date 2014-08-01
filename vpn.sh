@@ -144,8 +144,9 @@ echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 ;;
                 "3")
-                        exit
+                        break
 			;;
+		*) break 
         esac
 done
 exit
