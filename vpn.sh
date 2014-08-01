@@ -122,7 +122,7 @@ cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.crt ~/ovpn-$CLIENT
 cp /etc/openvpn/easy-rsa/2.0/keys/$CLIENT.key ~/ovpn-$CLIENT
 ####Editing $CLIENT.conf####
 EXTIP=$(wget -qO- ifconfig.me/ip)
-sed_exec=$(echo $EXTIP | sed -i -e "s/remote my-server-1 1194/$EXTIP 1194/" ~/ovpn-$CLIENT/$CLIENT.conf
+sed_exec=$(echo $EXTIP | sed -i -e "s/remote my-server-1 1194/$EXTIP 1194/" ~/ovpn-$CLIENT/$CLIENT.conf)
 ####finishing up####
 cd ~/ovpn-$CLIENT
 sed -i "s/cert client.crt/cert $CLIENT.crt/" $CLIENT.conf
@@ -157,4 +157,3 @@ do
 		*) break 
         esac
 done
-exit
