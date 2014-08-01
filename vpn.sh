@@ -108,7 +108,6 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 break
-;;
 }
 clients () {
 echo "* tell me your name for the client cert"
@@ -135,7 +134,6 @@ echo "Finished!"
 echo ""
 echo "Your client config is at ~/ovpn-$CLIENT.tar.gz"
 break
-;;
 }
 showMenu () {
         echo "1) Install OpenVPN"
