@@ -23,7 +23,7 @@ install_ovpn () {
 			git clone https://github.com/OpenVPN/easy-rsa-old
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
-			cp -r /easy-rsa-old/tree/master/easy-rsa/2.0 /etc/openvpn/easy-rsa/
+			cp -r /easy-rsa-old/easy-rsa/2.0 /etc/openvpn/easy-rsa/
 			rm -rf /easy-rsa-old
 ###Configuring###
 #In this part we will configure the files
