@@ -19,13 +19,12 @@ install_ovpn () {
 		echo "* tell me your name for the client cert"
 		read -p "Client name: " -e -i client CLIENT
 		echo -e "${INTRO_TEXT}* Starting the installation of your OpenVPN server${END}"
-			cd /home/$USER
 			apt-get update -y
 			git clone https://github.com/OpenVPN/easy-rsa-old
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
-			cp -r /home/$USER/easy-rsa-old/tree/master/easy-rsa/2.0 /etc/openvpn/easy-rsa/
-			rm -rf /home/$USER/easy-rsa-old
+			cp -r /easy-rsa-old/tree/master/easy-rsa/2.0 /etc/openvpn/easy-rsa/
+			rm -rf /easy-rsa-old
 ###Configuring###
 #In this part we will configure the files
 		echo -e "${RED_TEXT}* Please fill in the information as following${END}"
