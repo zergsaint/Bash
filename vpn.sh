@@ -21,10 +21,10 @@ install_ovpn () {
 		echo -e "${INTRO_TEXT}* Starting the installation of your OpenVPN server${END}"
 			cd /home/$USER
 			apt-get update -y
-			git clone https://github.com/OpenVPN/easy-rsa-old/tree/master/easy-rsa/2.0
+			git clone https://github.com/OpenVPN/easy-rsa-old
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
-			cp -r /home/$USER/2.0 /etc/openvpn/easy-rsa/
+			cp -r /home/$USER/easy-rsa-old/tree/master/easy-rsa/2.0 /etc/openvpn/easy-rsa/
 			rm -rf /home/$USER/2.0
 ###Configuring###
 #In this part we will configure the files
