@@ -25,7 +25,7 @@ install_ovpn () {
 			apt-get install openvpn -y
 			mkdir /etc/openvpn/easy-rsa
 			cp -r /home/$USER/easy-rsa-old/tree/master/easy-rsa/2.0 /etc/openvpn/easy-rsa/
-			rm -rf /home/$USER/2.0
+			rm -rf /home/$USER/easy-rsa-old
 ###Configuring###
 #In this part we will configure the files
 		echo -e "${RED_TEXT}* Please fill in the information as following${END}"
